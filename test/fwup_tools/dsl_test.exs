@@ -100,45 +100,49 @@ defmodule FwupTools.DSLTest do
     end
 
     actions do
-      action :info_start, :info do
-        args(["Starting complete firmware installation"])
+      info :info_start do
+        message("Starting complete firmware installation")
       end
 
-      action :write_mbr, :mbr_write do
-        args([:default])
+      mbr_write :write_mbr do
+        mbr(:default)
       end
 
-      action :write_rootfs, :raw_write do
-        args([2048])
-        options(cipher: "aes-cbc-plain", secret: "${SECRET_KEY}")
+      raw_write :write_rootfs do
+        block_offset(2048)
+        cipher("aes-cbc-plain")
+        secret("${SECRET_KEY}")
       end
 
-      action :write_kernel, :fat_write do
-        args([63, "zImage"])
+      fat_write :write_kernel do
+        block_offset(63)
+        filename("zImage")
       end
 
-      action :info_complete, :info do
-        args(["Complete firmware installation finished"])
+      info :info_complete do
+        message("Complete firmware installation finished")
       end
 
-      action :set_reboot_param, :reboot_param do
-        args(["0 tryboot"])
+      reboot_param :set_reboot_param do
+        args("0 tryboot")
       end
 
-      action :error_install, :error do
-        args(["Installation failed"])
+      error :error_install do
+        message("Installation failed")
       end
 
-      action :info_upgrade, :info do
-        args(["Upgrading partition A"])
+      info :info_upgrade do
+        message("Upgrading partition A")
       end
 
-      action :set_active_partition, :uboot_setenv do
-        args([:main_env, "active_partition", "a"])
+      uboot_setenv :set_active_partition do
+        uboot_env(:main_env)
+        variable_name("active_partition")
+        value("a")
       end
 
-      action :info_upgrade_complete, :info do
-        args(["Partition A upgrade complete"])
+      info :info_upgrade_complete do
+        message("Partition A upgrade complete")
       end
     end
 
@@ -287,15 +291,13 @@ defmodule FwupTools.DSLTest do
 
       info_action = FwupTools.Info.action(TestFirmware, :info_start)
       assert info_action.name == :info_start
-      assert info_action.type == :info
-      assert info_action.args == ["Starting complete firmware installation"]
+      assert info_action.message == "Starting complete firmware installation"
 
       write_action = FwupTools.Info.action(TestFirmware, :write_rootfs)
       assert write_action.name == :write_rootfs
-      assert write_action.type == :raw_write
-      assert write_action.args == [2048]
-      assert write_action.options[:cipher] == "aes-cbc-plain"
-      assert write_action.options[:secret] == "${SECRET_KEY}"
+      assert write_action.block_offset == 2048
+      assert write_action.cipher == "aes-cbc-plain"
+      assert write_action.secret == "${SECRET_KEY}"
     end
 
     test "can access require constraints" do
