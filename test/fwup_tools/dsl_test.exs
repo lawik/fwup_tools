@@ -189,14 +189,12 @@ defmodule FwupTools.DSLTest do
 
   describe "DSL structure" do
     test "can access global configuration" do
-      global = FwupTools.Info.global(TestFirmware)
-
-      assert global[:meta_product] == "Test Product"
-      assert global[:meta_version] == "1.0.0"
-      assert global[:meta_author] == "Test Author"
-      assert global[:meta_platform] == "rpi"
-      assert global[:meta_architecture] == "arm"
-      assert global[:require_fwup_version] == "1.0.0"
+      assert FwupTools.Info.global_meta_product!(TestFirmware) == "Test Product"
+      assert FwupTools.Info.global_meta_version!(TestFirmware) == "1.0.0"
+      assert FwupTools.Info.global_meta_author!(TestFirmware) == "Test Author"
+      assert FwupTools.Info.global_meta_platform!(TestFirmware) == "rpi"
+      assert FwupTools.Info.global_meta_architecture!(TestFirmware) == "arm"
+      assert FwupTools.Info.global_require_fwup_version!(TestFirmware) == "1.0.0"
     end
 
     test "can access file resources" do
