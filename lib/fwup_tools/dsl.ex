@@ -103,13 +103,13 @@ defmodule FwupTools.DSL do
     ]
   end
 
-  defmodule EventHandler do
+  defmodule On do
     @moduledoc """
     Defines an event handler within a task.
     """
     defstruct [
-      :name,
       :event,
+      :name,
       :resource_name,
       :__spark_metadata__
     ]
