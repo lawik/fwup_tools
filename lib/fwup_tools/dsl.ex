@@ -438,7 +438,7 @@ defmodule FwupTools.DSL do
     ]
   }
 
-  @event_handler %Spark.Dsl.Entity{
+  @on %Spark.Dsl.Entity{
     name: :on,
     args: [:event, :name],
     target: On,
@@ -578,7 +578,7 @@ defmodule FwupTools.DSL do
   @event_handlers %Spark.Dsl.Section{
     name: :event_handlers,
     describe: "Event handler definitions",
-    entities: [@event_handler]
+    entities: [@on]
   }
 
   @tasks %Spark.Dsl.Section{

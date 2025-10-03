@@ -156,28 +156,28 @@ defmodule FwupTools.DSLTest do
       end
     end
 
-    ons do
-      on(:init_complete, :init)
+    event_handlers do
+      on(:init, :init_complete)
 
-      on :resource_rootfs, :resource do
+      on :resource, :resource_rootfs do
         resource_name(:rootfs)
       end
 
-      on :resource_kernel, :resource do
+      on :resource, :resource_kernel do
         resource_name(:kernel)
       end
 
-      on(:finish_complete, :finish)
+      on(:finish, :finish_complete)
 
-      on(:error_complete, :error)
+      on(:error, :error_complete)
 
-      on(:init_upgrade_a, :init)
+      on(:init, :init_upgrade_a)
 
-      on :resource_upgrade_a, :resource do
+      on :resource, :resource_upgrade_a do
         resource_name(:rootfs)
       end
 
-      on(:finish_upgrade_a, :finish)
+      on(:finish, :finish_upgrade_a)
     end
 
     tasks do
@@ -314,14 +314,14 @@ defmodule FwupTools.DSLTest do
     end
 
     test "can access event handlers" do
-      handlers = FwupTools.Info.ons(TestFirmware)
+      handlers = FwupTools.Info.event_handlers(TestFirmware)
       assert length(handlers) == 8
 
-      init_handler = FwupTools.Info.on(TestFirmware, :init_complete)
+      init_handler = FwupTools.Info.event_handler(TestFirmware, :init_complete)
       assert init_handler.name == :init_complete
       assert init_handler.event == :init
 
-      resource_handler = FwupTools.Info.on(TestFirmware, :resource_rootfs)
+      resource_handler = FwupTools.Info.event_handler(TestFirmware, :resource_rootfs)
       assert resource_handler.name == :resource_rootfs
       assert resource_handler.event == :resource
       assert resource_handler.resource_name == :rootfs
