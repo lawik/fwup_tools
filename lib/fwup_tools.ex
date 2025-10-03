@@ -147,6 +147,7 @@ defmodule FwupTools do
       case apply(FwupTools.Info, function_name, [dsl_module]) do
         {:ok, value} -> value
         {:error, _} -> nil
+        :error -> nil
         value -> value
       end
     rescue
