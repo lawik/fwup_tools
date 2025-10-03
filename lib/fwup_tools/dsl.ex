@@ -171,7 +171,14 @@ defmodule FwupTools.DSL do
     @moduledoc """
     Write a resource to a FAT filesystem.
     """
-    defstruct [:name, :block_offset, :filename, :__spark_metadata__]
+    defstruct [
+      :name,
+      :block_offset,
+      :filename,
+      :delta_source_fat_offset,
+      :delta_source_fat_path,
+      :__spark_metadata__
+    ]
   end
 
   defmodule GptWriteAction do
@@ -809,6 +816,14 @@ defmodule FwupTools.DSL do
       filename: [
         type: :string,
         doc: "Filename to write (defaults to resource name if not specified)"
+      ],
+      delta_source_fat_offset: [
+        type: :integer,
+        doc: "Starting block offset of the source FAT partition for delta updates"
+      ],
+      delta_source_fat_path: [
+        type: :string,
+        doc: "Path inside the FAT partition of the source file for delta updates"
       ]
     ]
   }
