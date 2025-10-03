@@ -441,7 +441,7 @@ defmodule FwupTools.DSL do
   @event_handler %Spark.Dsl.Entity{
     name: :on,
     args: [:event, :name],
-    target: EventHandler,
+    target: On,
     describe: "Defines an event handler within a task",
     schema: [
       name: [
